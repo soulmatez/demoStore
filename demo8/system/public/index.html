@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="//at.alicdn.com/t/font_2805264_aep0xdvv1nn.css">
+		<link rel="stylesheet" type="text/css" href="./assets/index.css"/>
+	</head>
+	<body>
+	<div id="app">
+		<h2>NodeJS搭建服务端</h2>
+		<div class="menubar"><h3>信息管理系统</h3><span @click="changeOpen">添加用户</span></div>
+		<table class="gridtable">
+			<tr>
+				<th>姓名</th>
+				<th>性别</th>
+				<th>年龄</th>
+				<th>爱好</th>
+				<th>操作</th>
+			</tr>
+			<tr v-for="(item,index) in UserList">
+				<td>{{item.name}}</td>
+				<td>{{item.sex}}</td>
+				<td>{{item.age}}</td>
+				<td>{{item.hobby}}</td>
+				<td>
+					<span class="good" @click="EditFunc(item.id)"><i class="iconfont icon-plugschuangzuo"></i></span>
+					<span class="danger" @click="DelFunc(item.id)"><i class="iconfont icon-plugsjianshao"></i></span>
+				</td>
+			</tr>
+		</table>
+		
+		<div class="zhezhao" v-if="isOpacty">
+			<div class="tankuang">
+				<div id="header">
+					<span>添加用户信息</span>
+					<div style="cursor: pointer;" id="header-right" @click="changeClose">x</div>
+				</div>
+				<form role="form" action="" method="post" enctype="multipart/form-data">
+				  <div class="form-group">
+				    <label for="name">姓名</label>
+				    <input type="text" class="form-control" v-model="formObj.name" placeholder="请输入姓名">
+				  </div>
+				  <div class="form-group">
+				    <label for="name">性别</label>
+				    <input type="text" class="form-control" v-model="formObj.sex" placeholder="请输入性别">
+				  </div>
+				  <div class="form-group">
+				    <label for="name">年龄</label>
+				    <input type="text" class="form-control" v-model="formObj.age" placeholder="请输入年龄">
+				  </div>
+				  <div class="form-group">
+				    <label for="name">爱好</label>
+				    <input type="text" class="form-control" v-model="formObj.hobby" placeholder="请输入爱好">
+				  </div>
+				  <button @click="onSubmit($event)" class="btn btn-default">提交</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data:{
+				UserList:[],
+				isOpacty:false,
+				formObj:{  //验证表单对象
+					id:'',
+					name:'',
+					age:'',
+					sex:'',
+					hobby:''
+				},
+				formObjVail:{
+					name:'姓名不能为空',
+					age:'年龄不能为空',
+					sex:'性别不能为空',
+					hobby:'爱好不能为空'
+				}
+			},
+			computed:{
+			},
+			methods:{
+				// 获取用户列表
+				getUserList(){
+					let _list = this.UserList;
+					axios.get('/getUserList')
+					.then(function (res) {
+					  let result = res.data
+					  result.forEach(user=>{
+						_list.push(user);
+					  })
+					})
+					.catch(function (error) {
+					  console.log(error);
+					});
+					this.UserList = _list;
+				},
+				onSubmit(event){
+					event.preventDefault();
+					let _list = [];
+					let _formObj = this.formObj;
+					for(let key in _formObj){
+						if(_formObj[key] == '' && key != 'id'){
+							alert(this.formObjVail[key]);return;
+						}
+					}
+					axios.post('/editUserInfo',_formObj)
+					.then(function (res) {
+					  let result = res.data
+					  result.forEach(user=>{
+						_list.push(user);
+					  })
+					})
+					.catch(function (error) {
+					  console.log(error);
+					});
+					this.UserList = _list;
+					Object.keys(this.formObj).map(key => this.formObj[key] = '');
+					this.isOpacty = false;
+				},
+				// 删除操作
+				EditFunc(_id){
+					let _list = this.UserList;
+					var _editKey = _list.findIndex(function(item){
+						return item.id == parseInt(_id)
+					})
+					this.formObj = _list[_editKey];
+					this.isOpacty = true;
+				},
+				// 删除操作
+				DelFunc(_id){
+					let _list = [];
+					axios.post('/delUserInfo',{id:_id})
+					.then(function (res) {
+					  let result = res.data
+					  result.forEach(user=>{
+						_list.push(user);
+					  })
+					})
+					.catch(function (error) {
+					  console.log(error);
+					});
+					this.UserList = _list;
+				},
+				// 打开弹窗
+				changeOpen(){
+					this.isOpacty = true
+					// Object.keys(this.formObj).map(key => this.formObj[key] = '');
+				},
+				// 关闭弹窗
+				changeClose(){
+					this.isOpacty = false
+					this.formObj = {
+						id:'',
+						name:'',
+						age:'',
+						sex:'',
+						hobby:'',
+					}
+					console.log(this.UserList)
+				}
+			},
+			created() {
+				this.getUserList()
+			},
+			beforeMount(){
+			},
+			mounted(){
+			},
+			watch:{
+			}
+		})
+	</script>
+	</body>
+</html>

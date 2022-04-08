@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		  <script src="https://cdn.bootcss.com/video.js/7.5.4/video.js"></script>
+		  <script src="https://cdn.bootcss.com/videojs-youtube/2.6.0/Youtube.js"></script>
+		     
+		//弹窗
+		      <video id="my-video" class="video-js vjs-default-skin" controls preload="none" width="1000" height="580">
+		      </video>
+		 
+		//页面触发 传递动态URL 可传递播放列表页面 例如： http://www.youtube.com/watch?v=xjS6SftYQaQ&list=SPA60DCEB33156E51F
+		 
+		<span class="open-video" data-url="https://www.youtube.com/watch?v=xjS6SftYQaQ"><a href="javascript:void(0);">Video</a></span>
+		 
+		<script>
+		        //实例化videojs
+		        var player = videojs('my-video',{
+		            techOrder:["youtube"],
+		            sources: [{
+		                type: "video/youtube",
+		            }],
+		            // youtube: {playlist: "2_HXUhShhmY,lLJf9qJHR3E"},自定义播放列表
+		            height:550,
+		            width:1000,
+		            controls : true/false,    
+		            loop:true,//循环播放
+		            autoplay:true,//自动播放
+		            playsinline: 1,//禁止在IOS app 上自动全屏
+		            muted: false
+		        });
+		 
+		     //点击触发事件 把动态URL传到对象videojs
+		    $('.open-video').click(function(){
+		        player.src($(this).data('url'));
+		        player.load($(this).data('url')); //使video重新加载
+		        player.play();
+		        $('.video').show();
+		    });
+		    //点击关闭 播放
+		    $('.close-video').click(function(){
+		        player.pause();
+		        $('.video').hide();
+		    });
+		 
+		 
+		</script>
+	</body>
+</html>

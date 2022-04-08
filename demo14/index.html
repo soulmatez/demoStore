@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			.showBox{
+				width: 368px;
+				height: 640px;
+				margin: 80px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="showBox">
+			<img src="" id="num">
+		</div>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			// alert("小姐姐要开始表演了，预备！");
+			let num = 2;
+			var timer = setInterval(function(){
+				setShow(++num);
+			},60)
+			
+			function setShow(num){
+				if(num > 183){
+					clearInterval(timer)
+					alert("结束了");
+					location.reload();
+					return;
+				}
+				let src = "http://zraasq.natappfree.cc/demo/demo14/assets/picture/" + num + ".jpg";
+				$("#num").attr("src",src)
+			}
+			
+		})
+	</script>
+</html>

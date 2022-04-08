@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			function PromiseFunc(_param){
+				let {url,formData} = _param;
+				new Promise(function(resolve,reject){
+					$.ajax({
+						async: false,
+						url: url,
+						type: "post",
+						data: formData,
+						dataType: 'JSON',
+						success: function (res) {
+							resolve(res)
+						},
+						error: function (err) {
+							reject(err)
+						}
+					});
+				})
+			}
+			let obj = {
+				url: 'http://zzkefu.ja39.7890010.com/index/index/keywords',
+				formData: {
+					host: www.78900.net
+				}
+			}
+			PromiseFunc(obj)
+		</script>
+	</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="./assets/font/iconfont.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/index.css"/>
+	</head>
+	<body>
+		
+		<!-- 顶部固定部分开始 -->
+		<div class="fixBox">
+			<div class="title">添加微信好友了解产品</div>
+			<div class="point" id="pointButton"><span class="iconfont icon-weixin1"></span>添加微信</div>
+		</div>
+		<div class="nullBox"></div>
+		<!-- 顶部固定部分结束 -->
+		
+		<!-- 弹窗部分开始 -->
+		<div class="opacBox" id="opacBox">
+			<div class="toast">
+				<div class="top">
+					<span id="closeButton" class="iconfont icon-cuowuguanbiquxiao"></span>
+				</div>
+				
+				<div class="bottom">
+					<div class="icon">
+						<span class="iconfont icon-tijiao"></span>
+					</div>
+					<h3>复制成功</h3>
+					<p><b id="wxtit"></b><b id="wxtel"></b></p>
+					<p id="more"></p>
+					<a href="javascript:testApp('weixin://')">打开微信</a>
+				</div>
+			</div>
+		</div>
+		<!-- 弹窗部分结束 -->
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script src="assets/js/Toast.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/**
+			 * 自定义组件弹窗组件
+			 * wxtit : 微信号码名称 或省去
+			 * wxtel : 一般为组件的微信号码
+			 * more : 一般为其他信息
+			 * tip : 如果不填写，html将会不进行渲染
+			 */
+			$(function(){
+				Toast.renderConfig({
+					wxtit:'祥光微信号：',
+					wxtel:"TL15038066084",
+					more:"添加微信好友，了解更多详情"
+				});
+			})
+		</script>
+	</body>
+</html>

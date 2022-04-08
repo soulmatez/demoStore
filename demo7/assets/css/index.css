@@ -1,0 +1,124 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+.fixBox{
+	width: 100%;
+	background: #fff;
+	box-shadow: 2px 2px 7px 0px #f3f1f1;
+	height: 60px;
+	line-height: 60px;
+	display: flex;
+	margin: 0px;
+	padding: 0px;
+	position: fixed;
+	top: 0px;
+	left: 0;
+	z-index: 9999;
+}
+.fixBox .title{
+	width: 70%;
+	padding: 0px 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+.fixBox .point{
+	flex: 1;
+	background: rgb(26,173,23);
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	
+}
+.fixBox .point span{
+	font-size: 20px;
+	vertical-align: middle;
+	margin-right: 6px;
+}
+
+.nullBox{
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+}
+
+.opacBox{
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.3);
+	position: absolute;
+	display: none;
+	z-index: 9999;
+}
+
+.toast{
+	width: 300px;
+	/* height: 180px; */
+	background: #fff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -150px;
+	margin-top: -160px;
+	border-radius: 15px;
+	padding: 10px 0px 20px 0px;
+}
+.toast .top{
+	width: 100%;
+	position: relative;
+}
+.toast .top span{
+	position: absolute;
+	right: 4%;
+	top: 3px;
+	color: #333;
+	font-size: 22px;
+	
+}
+.toast .bottom{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.toast .bottom .icon{
+	width: 100%;
+	text-align: center;
+	height: 70px;
+	line-height: 90px;
+}
+.toast .bottom .icon span{
+	font-size: 30px;
+	color: rgb(26,173,23);
+}
+.toast .bottom h3{
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	height: 35px;
+	line-height: 30px;
+	letter-spacing: 1px;
+	color: #333;
+}
+.toast .bottom p{
+	width: 100%;
+	height: 30px;
+	font-size: 14px;
+	color: #908e8e;
+	line-height: 30px;
+	text-align: center;
+}
+.toast .bottom a{
+	width: 50%;
+	height: 35px;
+	margin: 10px auto;
+	background: rgb(26,173,23);
+	border: 0px;
+	line-height: 35px;
+	border-radius: 3px;
+	color: #fff;
+	font-size: 14px;
+	letter-spacing: 1px;
+	text-align: center;
+	text-decoration: none;
+}
+	
