@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" href="./assets/css/index.css">
+	</head>
+	<body>
+		<div id="app">
+			<div class="ctrtrolerBox">
+				<el-row class="title" align="middle">
+				  <el-col :span="24">
+					  <h2>综合安防数据同步系统</h2>
+				  </el-col>
+				</el-row>
+				<el-row class="content">
+					<el-col class="box" :span="8">
+						<el-row align="middle">
+						  <el-col class="ctrtroler" :span=24>
+							  <el-tag type="warning">用户表</el-tag>
+						  </el-col>
+						</el-row>
+						<el-row align="middle">
+						  <el-col class="ctro_btn" :span="24">
+							  <el-tooltip class="item" effect="dark" :content="userContent" placement="top-start">
+								  <el-button @click="syncUserData" :disabled="btnStatus == true" type="danger" plain>同步用户数据</el-button>
+							  </el-tooltip>
+						  </el-col>
+						  <el-col class="ctro_btn" :span="24">
+							  <el-card class="box-card" :body-style="bodyStyle">
+							    <div slot="header" class="clearfix">
+							      <span>用户表同步记录</span>
+								  <el-button @click="clearStroge('userMessageList')" style="float: right; padding: 3px 0" type="text">清空记录</el-button>
+							    </div>
+							    <div class="text item">
+							      <el-timeline>
+							        <el-timeline-item
+							          v-for="(activity, index) in userMessageList"
+							          :key="index"
+							          :icon="activity.icon"
+							          :type="activity.type"
+							          :color="activity.color"
+							          :size="activity.size"
+							          :timestamp="activity.timestamp">
+							          {{activity.content}}
+							        </el-timeline-item>
+							      </el-timeline>		
+							    </div>
+							  </el-card>
+						  </el-col>
+						  
+						</el-row>
+					</el-col>
+					<el-col class="box" :span="8" style="text-align: center;">
+						<el-row align="middle">
+						  <el-col class="ctrtroler" :span=24>
+							  <el-tag>监控台</el-tag>
+						  </el-col>
+						</el-row>
+						<el-row align="middle">
+						  <el-col class="progress" :span="24">
+							  <el-progress
+								type="circle" 
+								:percentage="percentage" 
+								:stroke-width="8"
+								:width="300"
+								stroke-linecap="square"
+								></el-progress>
+						  </el-col>
+						</el-row>
+					</el-col>
+				    <el-col class="box" :span="8">
+						<el-row align="middle">
+						  <el-col class="ctrtroler" :span=24>
+							<el-tag type="warning">组织表</el-tag>
+						  </el-col>
+						</el-row>
+						<el-row align="middle">
+						  <el-col class="ctro_btn" :span="24">
+							  <el-tooltip class="item" effect="dark" :content="orgiContent" placement="top-start">
+									<el-button @click="syncOrgData" :disabled="btnStatus == true" type="success" plain>同步组织数据</el-button>
+							  </el-tooltip>
+						  </el-col>
+						  <el-col class="ctro_btn" :span="24">
+							  <el-card class="box-card" :body-style="bodyStyle">
+								<div slot="header" class="clearfix">
+								  <span>组织表同步记录</span>
+								  <el-button @click="clearStroge('orgMessageList')" style="float: right; padding: 3px 0" type="text">清空记录</el-button>
+								</div>
+								<div class="text item">
+								  <el-timeline>
+									<el-timeline-item
+									  v-for="(activity, index) in orgMessageList"
+									  :key="index"
+									  :icon="activity.icon"
+									  :type="activity.type"
+									  :color="activity.color"
+									  :size="activity.size"
+									  :timestamp="activity.timestamp">
+									  {{activity.content}}
+									</el-timeline-item>
+								  </el-timeline>		
+								</div>
+							  </el-card>
+						  </el-col>
+						</el-row>
+				    </el-col>
+				</el-row>
+			</div>
+		</div>
+		<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+		<!-- 引入组件库 -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<!-- 引入axios -->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>	
+		<script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+		<script src="./utils/request.js"></script>
+		<script src="./utils/api.js"></script>
+		<script>
+			let qs = Qs;
+			var app = new Vue({
+			  el: '#app',
+			  data: {
+			    percentage: 0,
+				btnStatus: false,
+				userStatus: false,
+				orgStatus: false,
+				userContent: '该操作会同步至后台的增删改操作！',
+				orgiContent: '该操作会同步至后台的增删改操作！',
+				userMessageList: [{
+					content: '起始点',
+					time: 'adad',
+					color: '#0bbd87'
+				}],
+				orgMessageList: [{
+					content: '起始点',
+					time: 'adad',
+					color: '#0bbd87'
+				}],
+				bodyStyle:{
+					height: '450px',
+					overflow: 'scroll',
+					padding: '40px 0px'
+				}
+			  },
+			  created(){
+				  // 初始化数据
+					this.initData();
+			  },
+			  methods: {
+				  initData(){
+					  this.userMessageList = this.getLocal('userMessageList') != null ? this.copyArr([], this.getLocal('userMessageList')) : this.copyArr(this.userMessageList, this.getLocal('userMessageList'));
+					  this.orgMessageList = this.getLocal('orgMessageList') != null ? this.copyArr([], this.getLocal('orgMessageList')) : this.copyArr(this.orgMessageList, this.getLocal('orgMessageList'));
+				  },
+				  syncUserData(){
+					  let that = this;
+					  that.percentage = 0;
+					  that.userStatus = false;
+					  this.$confirm('确认同步用户表中的数据？').then( res=> {
+					    that.btnStatus = true;
+						var timer = setInterval(function(){
+							that.percentage = that.percentage + 1;
+							if(that.percentage == 99 && !that.userStatus){
+								clearInterval(timer);
+								that.funcSetInterval('userStatus');
+							}
+							if(that.percentage > 99 && that.userStatus){
+								clearInterval(timer);
+								that.btnStatus = false;
+								that.$message({
+								  message: '恭喜你，组织表数据同步成功！',
+								  type: 'success'
+								});
+								
+								// 存入缓存
+								let obj = {};
+								Object.assign(obj, {
+									content: '您操作了一次同步数据',
+									timestamp: that.Thistime(),
+									color: '#0bbd87'
+								})
+								let userMessageList = that.userMessageList;
+								if(userMessageList == null){
+									userMessageList.push(obj);
+								}else{
+									userMessageList[0].color = '#eee';
+									userMessageList.unshift(obj);
+								}
+								that.userMessageList = userMessageList;
+								that.setLocal('userMessageList', userMessageList);
+							}
+						},20)
+						
+						userApiTable().then((res) => {
+							if(res.status == 200){
+								that.userStatus = true;
+							}else{
+								that.$message({
+									message: '接口有误，请联系管理员',
+									type: 'success'
+								});
+							}
+						})
+						
+					  })
+					  .catch(_ => {});
+				  },
+				  syncOrgData(){
+					  let that = this;
+					  that.percentage = 0;
+					  that.orgStatus = false;
+					  this.$confirm('确认同步组织表中的数据？').then( res=> {
+						  that.btnStatus = true;
+						  var timer = setInterval(function(){
+						  	that.percentage = that.percentage + 1;
+						  	if(that.percentage == 99 && !that.userStatus){
+						  		clearInterval(timer);
+						  		that.funcSetInterval('orgStatus');
+						  	}
+						  	if(that.percentage > 99 && that.userStatus){
+						  		clearInterval(timer);
+								that.btnStatus = false;
+						  		that.$message({
+						  		  message: '恭喜你，组织表数据同步成功！',
+						  		  type: 'success'
+						  		});
+								
+								// 存入缓存
+								let obj = {};
+								Object.assign(obj, {
+									content: '您操作了一次同步数据',
+									timestamp: that.Thistime(),
+									color: '#0bbd87'
+								})
+								let orgMessageList = that.orgMessageList;
+								if(orgMessageList == null){
+									orgMessageList.push(obj);
+								}else{
+									orgMessageList[0].color = '#eee';
+									orgMessageList.unshift(obj);
+								}
+								that.orgMessageList = orgMessageList;
+								that.setLocal('orgMessageList', orgMessageList);
+						  	}
+						  },20)
+						  
+						  orgApiTable().then((res) => {
+							  if(res.status == 200){
+								  that.orgStatus = true;
+							  }else{
+								  that.$message({
+								    message: '接口有误，请联系管理员',
+								    type: 'success'
+								  });
+							  }
+						  })
+					  })
+					  .catch(_ => {});
+				  },
+				  // 延时成功定时器  监听接口是否成功
+				  funcSetInterval(key){
+					  var that = this;
+					  let ObjKey = key == 'userStatus' ? 'userMessageList' : 'orgMessageList';
+					  let message = key == 'userStatus' ? '用户表' : '组织表';
+					  var timer1 = setInterval(function(){
+						  if(that.percentage == 99 && that[key]){
+						  	clearInterval(timer1);
+							that[key] = true;
+							that.percentage = 100;
+							that.btnStatus = false;
+						  	that.$message({
+						  	  message: `恭喜你，${message}数据同步成功`,
+						  	  type: 'success'
+						  	});
+							
+							// 存入缓存
+							let obj = {};
+							Object.assign(obj, {
+								content: '您操作了一次同步数据',
+								timestamp: that.Thistime(),
+								color: '#0bbd87'
+							})
+							let MessageList = that[ObjKey];
+							if(MessageList == null){
+								MessageList.push(obj);
+							}else{
+								MessageList[0].color = '#eee';
+								MessageList.unshift(obj);
+							}
+							that[ObjKey] = MessageList;
+							that.setLocal(ObjKey, MessageList);
+						  }
+					  },20)
+				  },
+				  // 设置永久缓存
+				  setLocal(key, val) {
+					 window.localStorage.setItem(key, JSON.stringify(val));
+				  },
+				    // 获取永久缓存
+				  getLocal(key) {
+				     const json = window.localStorage.getItem(key);
+				     return JSON.parse(json);
+				  },
+				  // 移除永久缓存
+				  remove(key) {
+				     window.localStorage.removeItem(key);
+				  },
+				  // 移除全部永久缓存
+				  clear() {
+				    window.localStorage.clear();
+				  },
+				  Thistime() { //当前日期
+					var date = new Date();
+					var year = date.getFullYear();
+					var month = date.getMonth() + 1;
+					var day = date.getDate();
+					var mytime=date.toLocaleTimeString();
+					var time = year + "-" + month + "-" + day+' '+mytime;
+					return time;
+				  },
+				  copyArr(fromArr, ToArr) {
+				      let res = [];
+					  if(fromArr != null){
+						  for (let i = 0; i < fromArr.length; i++) {
+						   res.push(fromArr[i])
+						  }
+					  }
+					  if(ToArr != null){
+						  for (let i = 0; i < ToArr.length; i++) {
+						   res.push(ToArr[i])
+						  }
+					  }
+				      return res
+				  },
+				  // 清空缓存
+				  clearStroge(key){
+					  let message = key == 'userMessageList' ? '用户表' : '组织表';
+					  this.$confirm(`确定要清空${message}中的缓存记录？`).then( res=> {
+						  this[key] = [{
+							content: '起始点',
+							time: 'adad',
+							color: '#0bbd87'
+						  }]
+						  this.remove(key)
+						  this.$message({
+						    message: '数据已清空',
+						    type: 'success'
+						  });
+					  })
+				  }
+			  }
+			})
+		</script>
+	</body>
+</html>

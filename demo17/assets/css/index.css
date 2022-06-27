@@ -1,0 +1,117 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #409EFF;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+
+// main-container global css
+.app-container {
+  padding: 20px;
+}
+
+
+/**
+ * 整体部分
+ */
+.ctrtrolerBox{
+	width: 1200px;
+	height: 800px;
+	background: rgba(255, 255, 255, 1);
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	margin: auto;
+	border-radius: 30px;
+	box-shadow: rgb(0 0 0 / 35%) 0px 9px 19px 0px;
+	padding: 0px;
+}
+.title{
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+	width: 100%;
+	border-bottom: 1px solid #eee;
+}
+.title h2{
+	margin: 0px;
+}
+.content{
+	height: 700px;
+}
+.content .box{
+	border-right: 1px solid #eee;
+	height: 100%;
+	text-align: center;
+}
+.content .box .ctrtroler{
+	height: 160px;
+}
+.content .box:last-child{
+	border-right: 0px;
+}
+.content .box .progress{
+	height: 100%;
+}
+.content .box .ctro_btn{
+	
+}
+
+.content .box .box-card{
+	margin-top: 50px;
+}
