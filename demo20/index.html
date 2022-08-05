@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	</head>
+	<body>
+		<div id="app">
+			 <el-cascader v-model="area" :options="areaList" :props="optionProps" filterable 
+			   ref="myCascader"></el-cascader>
+		</div>
+		<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+		<!-- 引入组件库 -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<!-- 引入axios -->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>	
+		<script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+		<script src="https://cdn.suoluomei.com/common/js2.0/city-data/city-data.js"></script>
+		<script src="./utils/request.js"></script>
+		<script src="./utils/api.js"></script>
+		<script>
+			let qs = Qs;
+			var app = new Vue({
+			  el: '#app',
+			  data: {
+			    areaList: rawCitiesData,
+				area: [],
+				optionProps: { //配置节点
+				  value: 'code',
+				  label: 'name',
+				  children: 'sub'
+			   },
+			  },
+			  created(){
+				  
+			  },
+			  methods: {
+				  getRegionFunc() {
+					  getRegionApi().then((res)=>{
+						  console.log(res)
+						  let data = res.data.list[0];
+						  console.log(data, '线上的数据')
+					  })
+				  },
+				  handleChange() {
+					  console.log(this.optionsThree)
+				  }
+			  }
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,55 @@
+body{
+	background: url(https://www.xiongze.net/viewdata/images/bg.png) no-repeat;
+}
+.bigBox{
+	width: 100%;
+	height: 100vh;
+	padding: 80px 160px;
+	box-sizing: border-box;
+}
+.bigBox ul{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.bigBox ul>li{
+	list-style: none;
+	width: 47%;
+	height: 300px;
+	margin: 5px 1%;
+	border: 1px solid #0bc4e9;
+	position: relative;
+	background: rgba(0,72,115,0.28);
+}
+.bigBox ul>li::before{
+	content: '';
+	position: absolute;
+	width: 80%;
+	height: 100%;
+	left: 10%;
+	top: -1px;
+	border-top: 1px solid #007297;
+	border-bottom: 1px solid #007297;
+	transition: all 0.5s;
+}
+.bigBox ul>li::after{
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 80%;
+	top: 10%;
+	left: -1px;
+	border-left: 1px solid #007297;
+	border-right: 1px solid #007297;
+	transition: all 1s;
+}
+.bigBox ul>li:hover{
+	/* box-shadow: -1px 1px 10px 1px #eee */
+}
+.bigBox ul>li.fill::before, .bigBox ul>li.fill::after{
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+}

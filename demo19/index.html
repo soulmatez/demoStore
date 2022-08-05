@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="./assets/index.css">
+	</head>
+	<body>
+		<div class="bigBox">
+			<div id="container"></div>	
+		</div>
+		<!-- <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script> -->
+		<script src="https://webapi.amap.com/maps?v=2.0&key=d386c8a258a13bd0a0fa24bdbd5d9adc&plugin=AMap.MapboxVectorTileLayer"></script>
+		<script>
+		  var map = ( new AMap.Map('container', {
+			  zoom: 12,
+			  center: [113.925917,34.45346],
+			  // 这里设置自定义样式ID
+			  mapStyle: 'amap://styles/90432c80c89ae7f365d3f1c6aafa5ec0',
+			  showBuildingBlock: false,
+			  showIndoorMap: false,
+			  showLabel: true,
+			  viewMode: '3D',
+		  }));
+		  
+		</script>
+	</body>
+</html>
