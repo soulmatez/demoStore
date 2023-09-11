@@ -1,3 +1,3 @@
 import "@css/style.css"
 
-require("./view/42.3d弹珠");
+require("./view/43.时间序列预测");

@@ -1,0 +1,263 @@
+<!--
+ * @Author: Soulmate
+ * @Date: 2023-09-07 15:23:40
+ * @LastEditTime: 2023-09-08 09:21:00
+ * @LastEditors: Soulmate
+ * @Description: 
+ * @FilePath: \exportPdf\index.html
+ * 版权声明
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./public.css" />
+  </head>
+  <body>
+    <button class="layui-btn layui-btn-danger" id="exportPdf">
+      <i class="iconfont"></i> 导出报告
+    </button>
+    <div id="pdf-content"></div>
+    <script
+      type="text/javascript"
+      src="http://localhost:8080/vehicle_emission_cd_war_exploded/resources/js/jquery-1.10.1.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="http://localhost:8080/vehicle_emission_cd_war_exploded/resources/js/plugin/layui/layui.js"
+      charset="utf-8"
+    ></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script>
+      const pdfContentEl = document.getElementById('pdf-content')
+      $(function () {
+        $('#exportPdf').click(function () {
+          exportHtmlPDF('pdf-content', res => {
+            const { canvasUrl, pdf, canvas } = res
+            // // 导出PDF  pdf.save(`报名表${this.htmlFormatDate(new Date())}`)
+            // // console.log(canvas.toDataURL("image/png")) // 图片预览地址
+            // // var pdfData = pdf.output('datauristring')//获取到base64 的pdf
+            pdf.save('报告案例.pdf')
+          })
+          
+          pdfContentEl.addEventListener('click', function(){
+            pdfContentEl.className = ''
+            pdfContentEl.innerHTML = ''
+          })
+        })
+      })
+
+      function exportHtmlPDF(elementId, successCallback, errorCallback) {
+        /**
+         * 是否是函数
+         * @returns {Boolean}
+         */
+        function htmlIsFunction(fun) {
+          if (Object.prototype.toString.call(fun) === '[object Function]') {
+            return true
+          } else {
+            return false
+          }
+        }
+        // 添加模态框
+        pdfContentEl.className = 'active'
+
+        $(`<div class="contentBox">
+      <div class="header flexwrap">
+        <h4>环境保护检测站</h4>
+        <h4>机动车排气污染物检测报告(遥测法)</h4>
+        <div class="headerInfo flexwrap">
+          <div class="infoRow flex">
+            <span class="justCenter">打印时间：</span>2023-09-07 15:22:02
+          </div>
+          <div class="infoRow flex">
+            <span class="justCenter">报告编号：</span
+            >B456255256625225522661478589
+          </div>
+          <div class="infoRow flex">
+            <span class="justCenter">检测时间：</span>2023-09-07 15:22:02
+          </div>
+          <div class="infoRow flex">
+            <span class="justCenter">操作员：</span>常德市生态环境局
+          </div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="mainRow">
+          <h5>1.基本信息</h5>
+          <div class="mainContent flexwrap">
+            <div class="infoRow flex">
+              <span class="justCenter">监测站：</span>常德市监测站
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">站点编号：</span>B45625525
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">车牌号：</span>豫A2185U
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">车牌颜色：</span>黄牌
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">车道号：</span>3
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">加速度：</span>1.01
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">站点经度：</span>103.25
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">站点纬度：</span>39.65
+            </div>
+          </div>
+        </div>
+        <div class="mainRow">
+          <h5>2.环境参数</h5>
+          <div class="mainContent flexwrap">
+            <div class="infoRow flex">
+              <span class="justCenter">湿度(%)：</span>66
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">温度(°C)：</span>33.0
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">风速(m/s)：</span>0.35
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">风向：</span>西风
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">坡度(°C)：</span>0
+            </div>
+            <div class="infoRow flex">
+              <span class="justCenter">气压(kPa)：</span>99.83
+            </div>
+          </div>
+        </div>
+        <div class="mainRow">
+          <h5>3.抓拍图片</h5>
+          <div class="mainContent">
+            <img
+              src="http://42.49.129.198:5001/sf-remote-sensing/image/home/envsafe/image/smoke/2023/2023-09/B430703001/e6641142676a4f80b700ea144915379dB43070300120230907154602.jpeg"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <h3>污染物排放结果</h3>
+        <div class="mainContent">
+          <table border="1px" cellpadding="10px">
+            <tr>
+              <th>污染物</th>
+              <th>CO(%)</th>
+              <th>HC(ppm)</th>
+              <th>NO(ppm)</th>
+              <th>不透光烟度(%)</th>
+              <th>VSP(kw/t)</th>
+            </tr>
+            <tr>
+              <td>测量值</td>
+              <td>5.45</td>
+              <td>678</td>
+              <td>99</td>
+              <td>1</td>
+              <td>25.25</td>
+            </tr>
+            <tr>
+              <td>与CO2比率</td>
+              <td>0.45</td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td>/</td>
+              <td>/</td>
+            </tr>
+            <tr>
+              <td>单次判定结果</td>
+              <td>不合格</td>
+              <td>合格</td>
+              <td>合格</td>
+              <td>合格</td>
+              <td>/</td>
+            </tr>
+            <tr>
+              <td>总判定结果</td>
+              <td colspan="5">超限</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>`).appendTo(pdfContentEl)
+        html2canvas(pdfContentEl, {
+          scale: 1,
+          backgroundColor: '#ffffff',
+          allowTaint: true,
+          useCORS: true,
+          scrollY: 0,
+          scrollX: 0
+        })
+          .then(canvas => {
+            const pdf = new jspdf.jsPDF('p', 'mm', 'a4') // A4纸，纵向
+            // const pdf = new jspdf.jsPDF("l", "mm", "a4") // A4纸，横向
+            const ctx = canvas.getContext('2d')
+            const a4w = 190
+            const a4h = 257 // A4大小，210mm x 297mm，四边各保留20mm的边距
+            const imgHeight = Math.floor((a4h * canvas.width) / a4w) // 按A4显示比例换算一页图像的像素高度
+            let renderedHeight = 0
+            // this.canvasUrl = canvas.toDataURL("image/png")
+            while (renderedHeight < canvas.height) {
+              const page = document.createElement('canvas')
+              page.width = canvas.width
+              page.height = Math.min(imgHeight, canvas.height - renderedHeight) // 可能内容不足一页
+
+              // 用getImageData剪裁指定区域，并画到前面创建的canvas对象中
+              page
+                .getContext('2d')
+                .putImageData(
+                  ctx.getImageData(
+                    0,
+                    renderedHeight,
+                    canvas.width,
+                    Math.min(imgHeight, canvas.height - renderedHeight)
+                  ),
+                  0,
+                  0
+                )
+              pdf.addImage(
+                page.toDataURL('image/jpeg', 1.0),
+                'JPEG',
+                10,
+                10,
+                a4w,
+                Math.min(a4h, (a4w * page.height) / page.width)
+              ) // 添加图像到页面，保留10mm边距
+
+              renderedHeight += imgHeight
+              if (renderedHeight < canvas.height) {
+                pdf.addPage()
+              } // 如果后面还有内容，添加一个空页
+              // delete page;
+            }
+            if (successCallback && htmlIsFunction(successCallback)) {
+              successCallback({
+                pdf,
+                canvas,
+                canvasUrl: canvas.toDataURL('image/png')
+              })
+            }
+            // pdf.save(title + time)
+          })
+          .catch(error => {
+            console.log(error)
+            if (errorCallback && htmlIsFunction(errorCallback)) {
+              errorCallback(error)
+            }
+          })
+      }
+    </script>
+  </body>
+</html>

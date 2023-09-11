@@ -1,0 +1,110 @@
+body{
+    background: #eee;
+    color: #333;
+    font-family: '宋体';
+}
+.flex{
+    display: flex;
+}
+.flexwrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+.justCenter{
+    display: inline-block;
+    text-align-last: justify;
+}
+#pdf-content.active{
+    width: 100%;
+    background: rgba(0,0,0,.6);
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    z-index: 9999;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.contentBox{
+    width: 700px;
+    /* height: 950px; */
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    margin-left: -350px;
+    padding: 30px 40px;
+    box-sizing: border-box;
+}
+
+.contentBox .header{
+    width: 100%;
+}
+
+.contentBox .header h4{
+    width: 100%;
+    text-align: center;
+    margin: 0px;
+    line-height: 30px;
+    color: #000;
+    font-weight: 800;
+}
+
+.contentBox .header .headerInfo{
+    width: 100%;  
+    margin-top: 10px;
+    border-bottom: 1px solid #000;
+}
+
+.contentBox .header .headerInfo .infoRow, .contentBox .mainContent .infoRow{
+    width: 50%;
+    text-align: left;
+    line-height: 30px;
+}
+
+.contentBox .header .headerInfo .infoRow span, .contentBox .mainContent .infoRow span{
+    width: 80px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.contentBox .main, .contentBox .mainRow{
+    width: 100%;
+}
+
+.contentBox .mainRow h5{
+    width: 100%;
+    height: 35px;
+    line-height: 40px;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0px;
+    color: #000;
+}
+
+.contentBox .mainRow .mainContent img{
+    width: 55%;
+}
+
+.contentBox .footer{
+    width: 100%;
+}
+
+.contentBox .footer h3{
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    color: #000;
+}
+
+.contentBox .footer table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.contentBox .footer table th{
+
+}
